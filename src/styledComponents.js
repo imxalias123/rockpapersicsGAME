@@ -91,7 +91,7 @@ export const PopupContainer = styled.div`
 `
 
 export const DivPopup = styled.div`
-  width: 830px;
+  width: 820px;
   height: 650px;
   padding: 20px;
   background-color: #fff;
