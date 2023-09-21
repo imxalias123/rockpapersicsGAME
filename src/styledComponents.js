@@ -59,16 +59,7 @@ export const WrapImages = styled.ul`
   width: 600px;
   margin-top: 180px;
 `
-export const List = styled.li``
 
-export const Button = styled.button`
-  border: none;
-  background-color: transparent;
-`
-
-export const Img = styled.img`
-  width: 230px;
-`
 export const PopButton = styled.button`
   width: 120px;
   height: 40px;
@@ -107,7 +98,7 @@ export const CloseButton = styled.button`
   border: none;
 `
 
-export const PopupImg = styled(Img)`
+export const PopupImg = styled.img`
   width: 700px;
   margin: 30px;
 `

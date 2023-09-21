@@ -1,7 +1,9 @@
 import './App.css'
 import {Component} from 'react'
+
 import {RiCloseLine} from 'react-icons/ri'
 import Popup from 'reactjs-popup'
+import GameResult from './components/GameResult'
 import {
   Container,
   CourseBoard,
@@ -12,15 +14,14 @@ import {
   WrapBody,
   Score,
   WrapImages,
-  List,
-  Button,
-  Img,
   PopButton,
   PopupContainer,
   DivPopup,
   PopupImg,
   CloseButton,
 } from './styledComponents'
+
+import GamesImages from './components/GamesImages'
 
 const choicesList = [
   {
@@ -43,17 +44,37 @@ const choicesList = [
 class App extends Component {
   state = {
     score: 0,
+    gameStart: false,
     opponentChoice: '',
+    ourChoiceMade: '',
   }
 
-  onChoice = () => {
-    this.setState({opponentChoice: ''})
+  ourChoice = id => {
+    this.setState({opponentChoice: '', ourChoiceMade: ''})
     const result = Math.floor(Math.random() * 3)
-    this.setState({opponentChoice: choicesList[result].imageUrl})
+    const opponentImg = choicesList[result].imageUrl
+    // console.log(result)
+    // console.log(id)
+
+    const url = choicesList.find(each => each.id === id)
+    const ourChoiceImg = url.imageUrl
+    // console.log(url.imageUrl)
+    this.setState({
+      opponentChoice: opponentImg,
+      ourChoiceMade: ourChoiceImg,
+      gameStart: true,
+    })
+    if (opponentImg === ourChoiceImg) {
+      this.setState(prevState => ({
+        score: prevState.score + 1,
+      }))
+    }
   }
 
   render() {
-    const {score, opponentChoice} = this.state
+    const {score, opponentChoice, ourChoiceMade, gameStart} = this.state
+    console.log(opponentChoice)
+    console.log(ourChoiceMade)
     return (
       <Container>
         <WrapBody>
@@ -68,16 +89,23 @@ class App extends Component {
               <Score>{score}</Score>
             </ScoreContainer>
           </CourseBoard>
+        </WrapBody>
+        {gameStart ? (
+          <GameResult
+            opponentChoice={opponentChoice}
+            ourChoiceMade={ourChoiceMade}
+          />
+        ) : (
           <WrapImages>
             {choicesList.map(eachImage => (
-              <List key={eachImage.id}>
-                <Button type="button" onClick={this.onChoice}>
-                  <Img src={eachImage.imageUrl} alt={eachImage.id} />
-                </Button>
-              </List>
+              <GamesImages
+                key={eachImage.id}
+                details={eachImage}
+                ourChoice={this.ourChoice}
+              />
             ))}
           </WrapImages>
-        </WrapBody>
+        )}
 
         <PopupContainer>
           <Popup modal trigger={<PopButton type="button">Rules</PopButton>}>
