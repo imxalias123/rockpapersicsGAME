@@ -27,6 +27,7 @@ export const WrapBody = styled.div`
 export const Div = styled.div`
   display: flex;
   flex-direction: column;
+  width: 150px;
 `
 export const Heading = styled.h1`
   color: #fff;
@@ -43,12 +44,13 @@ export const ScoreContainer = styled(Div)`
   padding-right: 40px;
   height: 100%;
 `
-export const ScoreH1 = styled.h1`
+export const ScoreH1 = styled.p`
   color: #223a5f;
   margin: 0px;
 `
 export const Score = styled(ScoreH1)`
   font-size: 50px;
+  font-family: 'roboto';
 `
 export const WrapImages = styled.ul`
   display: flex;

@@ -43,7 +43,7 @@ const choicesList = [
 
 class App extends Component {
   state = {
-    score: 0,
+    score: '0',
     gameStart: false,
     opponentChoice: '',
     ourChoiceMade: '',
@@ -53,22 +53,31 @@ class App extends Component {
     this.setState({opponentChoice: '', ourChoiceMade: ''})
     const result = Math.floor(Math.random() * 3)
     const opponentImg = choicesList[result].imageUrl
-    // console.log(result)
-    // console.log(id)
-
+    const opponentId = choicesList[result].id
     const url = choicesList.find(each => each.id === id)
     const ourChoiceImg = url.imageUrl
-    // console.log(url.imageUrl)
+    const ourChoiceId = url.id
+
     this.setState({
       opponentChoice: opponentImg,
       ourChoiceMade: ourChoiceImg,
       gameStart: true,
     })
-    if (opponentImg === ourChoiceImg) {
+    if (opponentId === ourChoiceId) {
+      this.setState(prevState => ({
+        score: prevState.score - 1,
+      }))
+    } else {
       this.setState(prevState => ({
         score: prevState.score + 1,
       }))
     }
+  }
+
+  playAgainGame = () => {
+    this.setState({
+      gameStart: false,
+    })
   }
 
   render() {
@@ -80,9 +89,7 @@ class App extends Component {
         <WrapBody>
           <CourseBoard>
             <Div>
-              <Heading>ROCK</Heading>
-              <Heading>PAPER</Heading>
-              <Heading>SCISSORS</Heading>
+              <Heading>ROCK PAPER SCISSORS</Heading>
             </Div>
             <ScoreContainer>
               <ScoreH1>Score</ScoreH1>
@@ -94,6 +101,8 @@ class App extends Component {
           <GameResult
             opponentChoice={opponentChoice}
             ourChoiceMade={ourChoiceMade}
+            gameWon={opponentChoice === ourChoiceMade}
+            playAgainGame={this.playAgainGame}
           />
         ) : (
           <WrapImages>
