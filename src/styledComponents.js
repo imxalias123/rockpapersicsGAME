@@ -2,7 +2,10 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   background-color: #223a5f;
-  min-height: 100vh;
+  height: 110vh;
+  display: flex;
+  flex-direction: column;
+
   padding: 50px;
 `
 export const CourseBoard = styled.div`
@@ -20,21 +23,26 @@ export const CourseBoard = styled.div`
 export const WrapBody = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `
 
 export const Div = styled.div`
   display: flex;
   flex-direction: column;
-  width: 150px;
+
+  align-items: center;
 `
+
 export const Heading = styled.h1`
   color: #fff;
   font-size: 30px;
+  width: 150px;
   margin: 0px;
 `
-export const ScoreContainer = styled(Div)`
+export const ScoreContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: #fff;
@@ -47,10 +55,11 @@ export const ScoreContainer = styled(Div)`
 export const ScoreH1 = styled.p`
   color: #223a5f;
   margin: 0px;
+  font-family: 'Roboto';
 `
 export const Score = styled(ScoreH1)`
   font-size: 50px;
-  font-family: 'roboto';
+  font-family: 'Roboto';
 `
 export const WrapImages = styled.ul`
   display: flex;
@@ -59,7 +68,7 @@ export const WrapImages = styled.ul`
   align-items: center;
   list-style-type: none;
   width: 600px;
-  margin-top: 180px;
+  margin-top: 80px;
 `
 
 export const PopButton = styled.button`
@@ -73,7 +82,7 @@ export const PopButton = styled.button`
   border: none;
   border-radius: 7px;
   margin-left: 90%;
-  margin-top: 30px;
+  margin-top: 0px;
 `
 
 export const PopupContainer = styled.div`

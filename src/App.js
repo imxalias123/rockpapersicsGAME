@@ -7,8 +7,8 @@ import GameResult from './components/GameResult'
 import {
   Container,
   CourseBoard,
-  Div,
   Heading,
+  Div,
   ScoreContainer,
   ScoreH1,
   WrapBody,
@@ -43,35 +43,78 @@ const choicesList = [
 
 class App extends Component {
   state = {
-    score: '0',
+    score: 0,
     gameStart: false,
+    gameResultText: '',
     opponentChoice: '',
     ourChoiceMade: '',
   }
 
+  updatedResult = (ourChoiceId, opponentId) => {
+    if (ourChoiceId === 'ROCK') {
+      switch (opponentId) {
+        case 'ROCK':
+          return 'IT IS DRAW'
+        case 'SCISSORS':
+          return 'YOU WON'
+        case 'PAPER':
+          return 'YOU LOSE'
+        default:
+          return null
+      }
+    } else if (ourChoiceId === 'SCISSORS') {
+      switch (opponentId) {
+        case 'ROCK':
+          return 'YOU LOSE'
+        case 'SCISSORS':
+          return 'IT IS DRAW'
+        case 'PAPER':
+          return 'YOU WON'
+        default:
+          return null
+      }
+    } else {
+      switch (opponentId) {
+        case 'ROCK':
+          return 'YOU WON'
+        case 'SCISSORS':
+          return 'YOU LOSE'
+        case 'PAPER':
+          return 'IT IS DRAW'
+        default:
+          return null
+      }
+    }
+  }
+
   ourChoice = id => {
-    this.setState({opponentChoice: '', ourChoiceMade: ''})
+    const {score} = this.state
     const result = Math.floor(Math.random() * 3)
+    //  const opponent = choicesList[result]
     const opponentImg = choicesList[result].imageUrl
     const opponentId = choicesList[result].id
     const url = choicesList.find(each => each.id === id)
     const ourChoiceImg = url.imageUrl
     const ourChoiceId = url.id
 
+    const resultText = this.updatedResult(ourChoiceId, opponentId)
+
+    let latestScore = score
+
+    if (resultText === 'YOU WON') {
+      latestScore = score + 1
+    } else if (resultText === 'YOU LOSE') {
+      latestScore = score - 1
+    } else if (resultText === 'IT IS DRAW') {
+      latestScore = score
+    }
     this.setState({
       opponentChoice: opponentImg,
       ourChoiceMade: ourChoiceImg,
       gameStart: true,
+      score: latestScore,
+      gameResultText: resultText,
     })
-    if (opponentId === ourChoiceId) {
-      this.setState(prevState => ({
-        score: prevState.score - 1,
-      }))
-    } else {
-      this.setState(prevState => ({
-        score: prevState.score + 1,
-      }))
-    }
   }
 
   playAgainGame = () => {
@@ -81,41 +124,47 @@ class App extends Component {
   }
 
   render() {
-    const {score, opponentChoice, ourChoiceMade, gameStart} = this.state
+    const {
+      score,
+      opponentChoice,
+      ourChoiceMade,
+      gameStart,
+      gameResultText,
+    } = this.state
     console.log(opponentChoice)
     console.log(ourChoiceMade)
     return (
       <Container>
         <WrapBody>
           <CourseBoard>
-            <Div>
-              <Heading>ROCK PAPER SCISSORS</Heading>
-            </Div>
+            <Heading>ROCK PAPER SCISSORS</Heading>
+
             <ScoreContainer>
               <ScoreH1>Score</ScoreH1>
               <Score>{score}</Score>
             </ScoreContainer>
           </CourseBoard>
         </WrapBody>
-        {gameStart ? (
-          <GameResult
-            opponentChoice={opponentChoice}
-            ourChoiceMade={ourChoiceMade}
-            gameWon={opponentChoice === ourChoiceMade}
-            playAgainGame={this.playAgainGame}
-          />
-        ) : (
-          <WrapImages>
-            {choicesList.map(eachImage => (
-              <GamesImages
-                key={eachImage.id}
-                details={eachImage}
-                ourChoice={this.ourChoice}
-              />
-            ))}
-          </WrapImages>
-        )}
-
+        <Div>
+          {gameStart ? (
+            <GameResult
+              opponentChoice={opponentChoice}
+              ourChoiceMade={ourChoiceMade}
+              gameResultText={gameResultText}
+              playAgainGame={this.playAgainGame}
+            />
+          ) : (
+            <WrapImages>
+              {choicesList.map(eachImage => (
+                <GamesImages
+                  key={eachImage.id}
+                  details={eachImage}
+                  ourChoice={this.ourChoice}
+                />
+              ))}
+            </WrapImages>
+          )}
+        </Div>
         <PopupContainer>
           <Popup modal trigger={<PopButton type="button">Rules</PopButton>}>
             {close => (

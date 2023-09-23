@@ -10,7 +10,7 @@ import {
 } from './styledComponents'
 
 const GameResult = props => {
-  const {ourChoiceMade, opponentChoice, gameWon, playAgainGame} = props
+  const {ourChoiceMade, opponentChoice, gameResultText, playAgainGame} = props
   const playAgain = () => {
     playAgainGame()
   }
@@ -27,21 +27,12 @@ const GameResult = props => {
           <Img src={`${opponentChoice}`} alt="opponent choice" />
         </Div>
       </PlayContainer>
-      {gameWon ? (
-        <GameText>
-          <GameResultHeading> YOU LOSE</GameResultHeading>
-          <PlayAgainButton type="button" onClick={playAgain}>
-            PLAY AGAIN
-          </PlayAgainButton>
-        </GameText>
-      ) : (
-        <GameText>
-          <GameResultHeading>YOU WON</GameResultHeading>
-          <PlayAgainButton type="button" onClick={playAgain}>
-            PLAY AGAIN
-          </PlayAgainButton>
-        </GameText>
-      )}
+      <GameText>
+        <GameResultHeading> {gameResultText}</GameResultHeading>
+        <PlayAgainButton type="button" onClick={playAgain}>
+          PLAY AGAIN
+        </PlayAgainButton>
+      </GameText>
     </GameResultContainer>
   )
 }
